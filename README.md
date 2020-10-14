@@ -1,4 +1,4 @@
-## Simple 15 puzzle on React JS
+## Simple 15 puzzle (with solviability check) on React JS - https://barley-break.vercel.app/
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
