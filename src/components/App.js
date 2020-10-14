@@ -30,13 +30,37 @@ class App extends React.Component {
     }
 
     shuffleTiles = () => {
-        const shuffled = this.state.completed
-            .map(a => [Math.random(), a])
-            .sort((a, b) => a[0] - b[0])
-            .map(a => a[1]);
+        const shuffled = this.arrayShuffle(this.state.completed);
+
+        if (!this.checkSuffling(shuffled)) {
+            this.shuffleTiles();
+        }
+
         this.setState({'current' : shuffled });
     };
 
+    arrayShuffle = (array) => {
+        return array.map(a => [Math.random(), a])
+            .sort((a, b) => a[0] - b[0])
+            .map(a => a[1]);
+    }
+
+    checkSuffling = (shuffled) => {
+        const tilesPerRow = 4;
+        let inversionsCount = 0;
+        const pos = shuffled.indexOf('empty-cell') + 1;
+        const posRowOdd = (pos >= 1 && pos < 5) || (pos >= 9 && pos < 13);
+
+        for (let i = 0; i < tilesPerRow * tilesPerRow - 1; i++) {
+            for (let j = i + 1; j < tilesPerRow * tilesPerRow; j++) {
+                if (shuffled[j] && shuffled[i] && shuffled[i] > shuffled[j]) {
+                    inversionsCount++;
+                }
+            }
+        }
+
+        return (posRowOdd && inversionsCount % 2  === 0) || (!posRowOdd && inversionsCount % 2  !== 0)
+    }
 
     render() {
         return (
