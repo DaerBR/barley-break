@@ -6,10 +6,11 @@ import Barley from "./Barley";
 
 class App extends React.Component {
     state = {
-        completed : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 'empty-cell'],
         current: [],
         victory: false
     };
+
+    completed = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 'empty-cell'];
 
     moveTile = (positions) => {
 
@@ -17,20 +18,33 @@ class App extends React.Component {
             const newCurrent = [...this.state.current];
             [newCurrent[positions.newEmptyCellPosition], newCurrent[positions.newTilePosition]] =
                 [newCurrent[positions.newTilePosition], newCurrent[positions.newEmptyCellPosition]];
-            this.setState({'current' : newCurrent});
+            this.setState({current : newCurrent});
 
-            if (JSON.stringify([...this.state.current]) === JSON.stringify([...this.state.completed])) {
+            if (this.arraysMatch(this.state.current, this.completed)) {
                 this.setState({ 'victory' : true });
             }
-        }
 
+        }
     }
+
+    arraysMatch = (array1, array2) => {
+        if (array1.length !== array2.length) {
+            return false;
+        }
+        for (let i = 0; i < array1.length; i++) {
+            if (array1[i] !== array2[i]) {
+                return false;
+            }
+        }
+        return true;
+    };
+
     componentDidMount() {
         this.shuffleTiles();
     }
 
     shuffleTiles = () => {
-        const shuffled = this.arrayShuffle(this.state.completed);
+        const shuffled = this.arrayShuffle(this.completed);
 
         if (!this.checkSuffling(shuffled)) {
             this.shuffleTiles();
