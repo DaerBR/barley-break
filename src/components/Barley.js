@@ -6,10 +6,7 @@ const Barley = ({shuffled, moveTile}) => {
         const emptyCellIndex = shuffled.indexOf('empty-cell');
 
         if (targetIndex !== -1) {
-            const positions = {
-                'newEmptyCellPosition' : targetIndex,
-                'newTilePosition' : null
-            };
+            const positions = {};
 
             switch (emptyCellIndex) {
                 case (targetIndex - 1) :
@@ -28,6 +25,7 @@ const Barley = ({shuffled, moveTile}) => {
                     return null;
             }
 
+            positions.newEmptyCellPosition = targetIndex;
             return moveTile(positions);
         }
     }
